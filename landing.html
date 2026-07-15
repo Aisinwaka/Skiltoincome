@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Skill2Income — From Skills to Sustainable Income</title>
+<link rel="stylesheet" href="styles.css" />
+<style>
+  .hero{ padding:84px 24px 70px; text-align:center; position:relative; }
+  .hero-glow{ position:absolute; top:-40px; left:50%; transform:translateX(-50%); width:700px; height:400px;
+    background:radial-gradient(ellipse at center, rgba(22,163,74,.13), transparent 70%); filter:blur(20px); z-index:0; pointer-events:none; }
+  .hero-inner{ position:relative; z-index:1; }
+  .hero h1{ font-size:60px; line-height:1.08; margin-top:22px; }
+  .grad-text{ background:linear-gradient(90deg,var(--emerald),var(--blue)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+  .hero p{ font-size:18px; color:var(--text-muted); max-width:620px; margin:22px auto 0; line-height:1.6; }
+  .hero-ctas{ display:flex; gap:14px; justify-content:center; margin-top:34px; flex-wrap:wrap; }
+  .hero-note{ font-size:13px; color:var(--text-faint); margin-top:16px; }
+  .preview-strip{ margin-top:56px; display:flex; justify-content:center; gap:20px; flex-wrap:wrap; }
+  .preview-card{ width:220px; text-align:left; }
+  .section{ padding:80px 24px; }
+  .section-head{ text-align:center; margin-bottom:46px; }
+  .section-head h2{ font-size:36px; margin-top:14px; }
+  .feature-icon{ width:42px;height:42px;border-radius:12px;background:var(--emerald-light);display:flex;align-items:center;justify-content:center; }
+  .feature-icon svg{ color:var(--emerald-dark); }
+  .how-section{ background:var(--bg-elevated); padding:80px 0; border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
+  .grid-steps{ display:grid; grid-template-columns:repeat(4,1fr); gap:20px; }
+  .step-num{ font-family:'JetBrains Mono',monospace; font-weight:700; font-size:26px; color:var(--emerald); opacity:.5; }
+  .step-title{ font-family:'Sora',sans-serif; font-weight:700; font-size:16px; margin-top:8px; }
+  .step-desc{ font-size:13.5px; color:var(--text-muted); margin-top:6px; line-height:1.5; }
+  .stars{ display:flex; gap:3px; margin-bottom:12px; }
+  .stars svg{ color:var(--orange); }
+  .testi-name{ margin-top:16px; font-family:'Sora',sans-serif; font-weight:700; font-size:14px; }
+  .testi-role{ font-size:12.5px; color:var(--text-muted); }
+  .partners{ padding:40px 24px; border-top:1px solid var(--border); display:flex; justify-content:center; gap:46px; flex-wrap:wrap; opacity:.55; font-family:'Sora',sans-serif; font-weight:700; font-size:15px; }
+  .faq-item{ border-bottom:1px solid var(--border); padding:18px 0; cursor:pointer; }
+  .faq-q{ display:flex; justify-content:space-between; align-items:center; font-family:'Sora',sans-serif; font-weight:600; font-size:15.5px; }
+  .faq-a{ font-size:14px; color:var(--text-muted); margin-top:12px; line-height:1.6; display:none; }
+  .faq-item.open .faq-a{ display:block; }
+  .faq-item.open .faq-plus{ transform:rotate(45deg); }
+  .faq-plus{ transition:transform .2s; }
+  .cta-band{ margin:0 24px 80px; max-width:1132px; margin-left:auto; margin-right:auto; border-radius:28px; padding:56px 32px;
+    text-align:center; background:linear-gradient(135deg,var(--emerald),var(--blue)); color:#fff; }
+  .cta-band h2{ font-size:32px; }
+  .cta-band p{ font-size:15px; opacity:.9; margin-top:10px; }
+  .footer{ border-top:1px solid var(--border); padding:40px 24px; }
+  .footer-inner{ display:flex; justify-content:space-between; flex-wrap:wrap; gap:24px; }
+  .footer-cols{ display:flex; gap:60px; flex-wrap:wrap; }
+  .footer-col h4{ font-family:'Sora',sans-serif; font-weight:700; font-size:13px; margin-bottom:10px; }
+  .footer-col div{ font-size:13px; color:var(--text-muted); margin-bottom:8px; }
+  .footer-bottom{ max-width:1180px; margin:32px auto 0; padding:0 24px; font-size:12px; color:var(--text-faint); }
+  @media (max-width:900px){ .hero h1{ font-size:38px; } .grid-steps{ grid-template-columns:1fr 1fr; } }
+  @media (max-width:640px){ .grid-steps{ grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <div class="wrap nav-inner">
+    <div class="logo">
+      <div class="logo-mark">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 11-14h-7l1-6z"/></svg>
+      </div>
+      Skill2Income
+    </div>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#how">How it works</a>
+      <a href="#stories">Stories</a>
+      <a href="#faq">FAQ</a>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <button class="icon-btn" data-theme-toggle>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z"/></svg>
+      </button>
+      <a href="auth.html?mode=login" class="nav-links" style="display:inline;opacity:.75;font-weight:500;font-size:14.5px;">Log in</a>
+      <a href="auth.html?mode=signup" class="btn btn-primary btn-sm">Start Free</a>
+    </div>
+  </div>
+</div>
+
+<div class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-inner">
+    <span class="badge badge-emerald">🇳🇬 Built for Nigeria, scaling across Africa</span>
+    <h1 class="hero-h1">From Skills to<br /><span class="grad-text">Sustainable Income</span></h1>
+    <p>An AI-powered roadmap out of unemployment — into a job, a trade, freelance work, or your own business. Personalized to your skills, location, and budget.</p>
+    <div class="hero-ctas">
+      <a href="auth.html?mode=signup" class="btn btn-primary btn-lg">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 11-14h-7l1-6z"/></svg>
+        Start Free
+      </a>
+      <button class="btn btn-ghost btn-lg" id="demoBtn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3l15 9-15 9V3z"/></svg>
+        Watch Demo
+      </button>
+    </div>
+    <p class="hero-note">No credit card. Works on any Android phone. English, Hausa, Yoruba &amp; Igbo.</p>
+
+    <div class="preview-strip">
+      <div class="card preview-card">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div class="ring-wrap" style="width:56px;height:56px;">
+            <svg width="56" height="56" style="transform:rotate(-90deg)">
+              <circle cx="28" cy="28" r="25" stroke="#EDEFEA" stroke-width="6" fill="none"/>
+              <circle cx="28" cy="28" r="25" stroke="url(#g1)" stroke-width="6" fill="none" stroke-dasharray="157" stroke-dashoffset="35" stroke-linecap="round"/>
+              <defs><linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#16A34A"/><stop offset="100%" stop-color="#2563EB"/></linearGradient></defs>
+            </svg>
+          </div>
+          <div>
+            <div style="font-size:12px;color:var(--text-muted);">Readiness Score</div>
+            <div style="font-family:'Sora',sans-serif;font-weight:700;font-size:15px;">Ready to earn</div>
+          </div>
+        </div>
+      </div>
+      <div class="card preview-card">
+        <span class="badge badge-blue">Blueprint</span>
+        <div style="font-family:'Sora',sans-serif;font-weight:700;font-size:15px;margin-top:10px;">Freelance Graphic Design</div>
+        <div style="font-size:12.5px;color:var(--text-muted);margin-top:4px;">Est. ₦80k–₦250k/mo · 8 weeks</div>
+      </div>
+      <div class="card preview-card">
+        <span class="badge badge-orange">AI Mentor</span>
+        <div style="font-size:13px;margin-top:10px;color:var(--text-muted);font-style:italic;">"Yau, mu duba yadda za ki farashin aikinki..."</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap section" id="features">
+  <div class="section-head">
+    <span class="badge badge-blue">What you get</span>
+    <h2>Everything between "unemployed" and "earning"</h2>
+  </div>
+  <div class="grid-3" id="featureGrid"></div>
+</div>
+
+<div class="how-section" id="how">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="badge badge-orange">The path</span>
+      <h2>How it works</h2>
+    </div>
+    <div class="grid-steps" id="stepsGrid"></div>
+  </div>
+</div>
+
+<div class="wrap section" id="stories">
+  <div class="section-head">
+    <span class="badge badge-emerald">Real journeys</span>
+    <h2>People building real income</h2>
+  </div>
+  <div class="grid-3" id="testiGrid"></div>
+</div>
+
+<div class="partners">
+  <span>3MTT</span><span>NYSC</span><span>NITDA</span><span>SMEDAN</span><span>Paystack</span><span>Flutterwave</span>
+</div>
+
+<div class="narrow section" id="faq" style="padding-top:80px;">
+  <div class="section-head">
+    <span class="badge badge-blue">Questions</span>
+    <h2 style="font-size:32px;">Frequently asked</h2>
+  </div>
+  <div id="faqList"></div>
+</div>
+
+<div class="cta-band">
+  <h2>Your income blueprint is 6 minutes away</h2>
+  <p>Free forever for the core tools. No card required.</p>
+  <div style="margin-top:24px;">
+    <a href="auth.html?mode=signup" class="btn btn-lg" style="background:#fff;color:var(--emerald-dark);box-shadow:none;">Start Free →</a>
+  </div>
+</div>
+
+<div class="footer">
+  <div class="wrap footer-inner">
+    <div>
+      <div class="logo"><div class="logo-mark" style="width:26px;height:26px;"></div>Skill2Income</div>
+      <p style="font-size:12.5px;color:var(--text-faint);margin-top:10px;max-width:240px;">Economic mobility, powered by AI. Made in Kano, for Nigeria and Africa.</p>
+    </div>
+    <div class="footer-cols">
+      <div class="footer-col"><h4>Product</h4><div>Features</div><div>Pricing</div><div>Roadmap</div></div>
+      <div class="footer-col"><h4>Company</h4><div>About</div><div>Careers</div><div>Contact</div></div>
+      <div class="footer-col"><h4>Legal</h4><div>Privacy</div><div>Terms</div><div>Security</div></div>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2026 Skill2Income. All rights reserved.</div>
+</div>
+
+<script src="theme.js"></script>
+<script>
+const ICONS = {
+  target: '<path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zM12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8zM12 11a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/>',
+  bolt: '<path d="M13 2 3 14h7l-1 8 11-14h-7l1-6z"/>',
+  chat: '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10z"/>',
+  briefcase: '<path d="M3 7h18v13H3V7zm5 0V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 12h18"/>',
+  coin: '<path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zM12 6v12M15 9.5c0-1.4-1.4-2.5-3-2.5s-3 1.1-3 2.5 1.4 2 3 2.5 3 1.1 3 2.5-1.4 2.5-3 2.5-3-1.1-3-2.5"/>',
+  trophy: '<path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4zM7 5H4a2 2 0 0 0 0 4h3M17 5h3a2 2 0 0 1 0 4h-3"/>',
+  star: '<path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/>'
+};
+function svgIcon(name, size=20, color='currentColor'){
+  return `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ICONS[name]}</svg>`;
+}
+
+const features = [
+  { icon:'target', title:'Income Readiness Score', desc:"A 0–100 score that tells you exactly how close you are to earning, and what's holding you back." },
+  { icon:'bolt', title:'AI Career Blueprint', desc:'A step-by-step roadmap into a job, trade, freelance gig, or business — built around your skills and budget.' },
+  { icon:'chat', title:'AI Mentor in your language', desc:'Ask for career, business, or money advice in English, Hausa, Yoruba, or Igbo — by voice or text.' },
+  { icon:'briefcase', title:'Smart Job & Gig Matching', desc:'Jobs, gigs, and grants ranked by how well they match your real skills — not just keywords.' },
+  { icon:'coin', title:'Money tools built for real budgets', desc:'Track income, plan an emergency fund, and forecast growth, from ₦0 upward.' },
+  { icon:'trophy', title:'Streaks, XP & badges', desc:'Stay consistent with daily tasks and see your progress compound, week over week.' },
+];
+document.getElementById('featureGrid').innerHTML = features.map(f => `
+  <div class="card">
+    <div class="feature-icon">${svgIcon(f.icon, 20, '#15803D')}</div>
+    <h3 style="font-size:17px;margin-top:14px;">${f.title}</h3>
+    <p style="font-size:14px;color:var(--text-muted);margin-top:6px;line-height:1.55;">${f.desc}</p>
+  </div>`).join('');
+
+const steps = [
+  { n:'1', title:"Tell us where you're starting", desc:'Answer questions about your skills, location, budget, and goals — takes about 6 minutes.' },
+  { n:'2', title:'Get your Readiness Score', desc:"See exactly what's working for you and what to fix first, with a clear breakdown." },
+  { n:'3', title:'Follow your Income Blueprint', desc:'A personalized path with weekly milestones — job, trade, freelance, or business.' },
+  { n:'4', title:'Earn, track, and grow', desc:'Apply, learn, and log income while your AI mentor keeps you on track.' },
+];
+document.getElementById('stepsGrid').innerHTML = steps.map(s => `
+  <div><div class="step-num">${s.n}</div><div class="step-title">${s.title}</div><div class="step-desc">${s.desc}</div></div>`).join('');
+
+const testimonials = [
+  { name:'Amina Yusuf', role:'Tailoring business, Kano', quote:"I went from doing menial jobs to running my own tailoring shop with three regular clients. The blueprint told me exactly what to learn first." },
+  { name:'Chidi Okafor', role:'Freelance data entry, Enugu', quote:'The AI mentor helped me price my first gig properly. I undercharge less now.' },
+  { name:'Fatima Bello', role:'NYSC corps member, Kaduna', quote:"Skill2Income found me a grant I didn't know existed. That funded my first three months." },
+];
+document.getElementById('testiGrid').innerHTML = testimonials.map(tm => `
+  <div class="card">
+    <div class="stars">${svgIcon('star',14,'#F97316').repeat(5)}</div>
+    <p style="font-size:14.5px;line-height:1.6;">"${tm.quote}"</p>
+    <div class="testi-name">${tm.name}</div>
+    <div class="testi-role">${tm.role}</div>
+  </div>`).join('');
+
+const faqs = [
+  { q:'Is Skill2Income free to use?', a:'Yes. The assessment, your Income Blueprint, and core tools are free. Some advanced courses and premium mentorship sessions may carry a small fee.' },
+  { q:'Do I need a smartphone or fast internet?', a:'No. The platform is built mobile-first and works on low-end Android devices with 2G/3G, with offline access to your saved roadmap and tasks.' },
+  { q:'What if I have no formal skills yet?', a:"That's exactly who this is for. The onboarding assessment identifies transferable skills and interests, then recommends a starting path — including vocational trades and agriculture." },
+  { q:'Which languages are supported?', a:'The interface and AI mentor currently support English, Hausa, Yoruba, and Igbo, with more Nigerian and African languages planned.' },
+];
+document.getElementById('faqList').innerHTML = faqs.map((f,i) => `
+  <div class="faq-item ${i===0?'open':''}" onclick="this.classList.toggle('open')">
+    <div class="faq-q"><span>${f.q}</span><span class="faq-plus">${svgIcon('bolt',0,'')}</span></div>
+    <div class="faq-a">${f.a}</div>
+  </div>`).join('').replaceAll(svgIcon('bolt',0,''), '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>');
+</script>
+</body>
+</html>
