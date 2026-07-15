@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Skill2Income — AI Onboarding Assessment</title>
+<link rel="stylesheet" href="styles.css" />
+<style>
+  .ob-page{ min-height:100vh; display:flex; flex-direction:column; align-items:center; padding:40px 20px; }
+  .ob-box{ width:100%; max-width:560px; }
+  .ob-top{ display:flex; align-items:center; gap:9px; margin-bottom:30px; }
+  .ob-counter{ margin-left:auto; font-family:'JetBrains Mono',monospace; font-size:12.5px; color:var(--text-muted); }
+  .ob-progress{ height:6px; border-radius:999px; background:var(--border); overflow:hidden; margin-bottom:34px; }
+  .ob-progress-fill{ height:100%; background:linear-gradient(90deg,var(--emerald),var(--blue)); transition:width .4s ease; }
+  .ob-q-title{ font-size:26px; margin-top:14px; line-height:1.3; }
+  .ob-answers{ margin-top:26px; }
+  .chip-col{ display:flex; flex-direction:column; gap:10px; }
+  .chip-flex{ display:flex; flex-wrap:wrap; gap:10px; }
+  .ob-text-input{ padding:14px 16px; font-size:16px; }
+  .ob-nav{ display:flex; gap:10px; margin-top:34px; }
+  .ob-nav .btn{ flex:1; }
+  .check-icon{ display:none; }
+  .chip-row.active .check-icon{ display:inline-flex; }
+</style>
+</head>
+<body>
+
+<div class="ob-page">
+  <div class="ob-box">
+    <div class="ob-top">
+      <div class="logo-mark" style="width:30px;height:30px;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 11-14h-7l1-6z"/></svg>
+      </div>
+      <span style="font-family:'Sora',sans-serif;font-weight:800;font-size:16px;">Skill2Income</span>
+      <span class="ob-counter" id="counter">1 / 13</span>
+    </div>
+
+    <div class="ob-progress"><div class="ob-progress-fill" id="progressFill" style="width:0%"></div></div>
+
+    <span class="badge badge-orange">AI Onboarding Assessment</span>
+    <h1 class="ob-q-title" id="qTitle"></h1>
+
+    <div class="ob-answers" id="answerArea"></div>
+
+    <div class="ob-nav">
+      <button class="btn btn-ghost" id="backBtn" onclick="prevQ()" style="display:none;">Back</button>
+      <button class="btn btn-primary" id="nextBtn" onclick="nextQ()">Continue</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="supabase-client.js"></script>
+<script>
+/* Field keys match the real Prisma schema: age, education, location, skills.
+   Extra fields (lga, languages, income, interests, budget, internet, device, workstyle, availability)
+   are captured for the richer profile described in the brief and can be added to Assessment via migration. */
+const questions = [
+  { key:'age', title:'How old are you?', type:'chips', options:['Under 18','18–24','25–34','35–44','45+'] },
+  { key:'location', title:'Which state are you in?', type:'text', placeholder:'e.g. Kano State' },
+  { key:'lga', title:'Which Local Government Area?', type:'text', placeholder:'e.g. Nassarawa LGA' },
+  { key:'education', title:"What's your highest education level?", type:'chips', options:['No formal education','Primary','Secondary / WAEC','OND/NCE','HND/BSc','Postgraduate'] },
+  { key:'languages', title:'Which languages are you comfortable working in?', type:'multi', options:['English','Hausa','Yoruba','Igbo','Pidgin'] },
+  { key:'income', title:"What's your current monthly income?", type:'chips', options:['₦0 (none)','Under ₦20k','₦20k–₦50k','₦50k–₦150k','₦150k+'] },
+  { key:'skills', title:'What skills do you already have?', type:'multi', options:['Tailoring','Phone/laptop repair','Graphic design','Writing','Sales','Farming','Cooking/baking','Driving','Hairdressing/barbing','None yet'] },
+  { key:'interests', title:'What kind of work interests you most?', type:'multi', options:['Formal employment','Freelancing online','Starting a business','Vocational trade','Agriculture','Not sure yet'] },
+  { key:'budget', title:"What's your monthly budget for training or tools?", type:'chips', options:['₦0','Under ₦5k','₦5k–₦15k','₦15k+'] },
+  { key:'internet', title:'How would you describe your internet access?', type:'chips', options:['Rarely have data','Occasional data/Wi-Fi','Reliable daily access'] },
+  { key:'device', title:'What device do you use most?', type:'chips', options:['Basic phone','Android smartphone','Laptop/PC','Cyber café'] },
+  { key:'workstyle', title:'How do you prefer to work?', type:'chips', options:['Alone','In a small team','Face-to-face with clients','Fully remote'] },
+  { key:'availability', title:'How much time can you commit weekly?', type:'chips', options:['Under 5 hrs','5–15 hrs','15–30 hrs','30+ hrs (full time)'] },
+];
+
+let i = 0;
+const answers = {};
+
+function render(){
+  const q = questions[i];
+  document.getElementById('counter').textContent = `${i+1} / ${questions.length}`;
+  document.getElementById('progressFill').style.width = `${Math.round((i/questions.length)*100)}%`;
+  document.getElementById('qTitle').textContent = q.title;
+  document.getElementById('backBtn').style.display = i > 0 ? 'inline-flex' : 'none';
+  document.getElementById('nextBtn').classList.toggle('btn-full', i === 0);
+  document.getElementById('nextBtn').textContent = i === questions.length - 1 ? 'See my score' : 'Continue';
+
+  const area = document.getElementById('answerArea');
+  if(q.type === 'chips'){
+    area.innerHTML = `<div class="chip-col">${q.options.map(opt => `
+      <div class="chip-row ${answers[q.key]===opt?'active':''}" onclick="selectChip('${q.key}','${opt.replace(/'/g,"\\'")}')">
+        ${opt}
+        <span class="check-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+      </div>`).join('')}</div>`;
+  } else if(q.type === 'multi'){
+    const cur = answers[q.key] || [];
+    area.innerHTML = `<div class="chip-flex">${q.options.map(opt => `
+      <div class="chip ${cur.includes(opt)?'active':''}" onclick="toggleMulti('${q.key}','${opt.replace(/'/g,"\\'")}')">${opt}</div>`).join('')}</div>`;
+  } else if(q.type === 'text'){
+    area.innerHTML = `<input type="text" class="ob-text-input" id="textInput" placeholder="${q.placeholder}" value="${answers[q.key]||''}" oninput="answers['${q.key}']=this.value" />`;
+  }
+}
+
+function selectChip(key, val){ answers[key] = val; render(); }
+function toggleMulti(key, val){
+  const cur = answers[key] || [];
+  answers[key] = cur.includes(val) ? cur.filter(x=>x!==val) : [...cur, val];
+  render();
+}
+function canProceed(){
+  const q = questions[i];
+  if(q.type === 'text') return true;
+  if(q.type === 'multi') return (answers[q.key]||[]).length > 0;
+  return !!answers[q.key];
+}
+async function nextQ(){
+  if(!canProceed()){ return; }
+  if(i < questions.length - 1){ i++; render(); }
+  else {
+    const btn = document.getElementById('nextBtn');
+    btn.disabled = true;
+    btn.textContent = 'Scoring your answers…';
+    try {
+      const data = await submitOnboarding(answers);
+      // Real score/path/breakdown, written straight to Postgres under RLS.
+      sessionStorage.setItem('s2i_result', JSON.stringify(data));
+      window.location.href = 'results.html';
+    } catch(e){
+      alert(e.message || 'Could not submit your assessment. Please try again.');
+      btn.disabled = false;
+      btn.textContent = 'See my score';
+    }
+  }
+}
+function prevQ(){ if(i>0){ i--; render(); } }
+if (typeof requireLogin === 'function') requireLogin();
+render();
+</script>
+</body>
+</html>
